@@ -1,0 +1,16 @@
+.DS_Store
+*.csproj
+*.pidb
+*.sln
+*.userprefs
+*.meta
+*.unitypackage
+*.apk
+*.jar
+*.a
+.vs
+Library
+ProjectSettings
+Temp
+Packages
+obj
