@@ -23,34 +23,34 @@ Ad Tracking Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，�
 	
 	```
 		[DllImport ("__Internal")]
-		private static extern void tdOnCustEvent1();
+		private static extern void tdatOnCustEvent1();
 		
 		[DllImport ("__Internal")]
-		private static extern void tdOnCustEvent2();
+		private static extern void tdatOnCustEvent2();
 		
 		[DllImport ("__Internal")]
-		private static extern void tdOnCustEvent3();
+		private static extern void tdatOnCustEvent3();
 		
 		[DllImport ("__Internal")]
-		private static extern void tdOnCustEvent4();
+		private static extern void tdatOnCustEvent4();
 		
 		[DllImport ("__Internal")]
-		private static extern void tdOnCustEvent5();
+		private static extern void tdatOnCustEvent5();
 		
 		[DllImport ("__Internal")]
-		private static extern void tdOnCustEvent6();
+		private static extern void tdatOnCustEvent6();
 		
 		[DllImport ("__Internal")]
-		private static extern void tdOnCustEvent7();
+		private static extern void tdatOnCustEvent7();
 		
 		[DllImport ("__Internal")]
-		private static extern void tdOnCustEvent8();
+		private static extern void tdatOnCustEvent8();
 		
 		[DllImport ("__Internal")]
-		private static extern void tdOnCustEvent9();
+		private static extern void tdatOnCustEvent9();
 		
 		[DllImport ("__Internal")]
-		private static extern void tdOnCustEvent10();
+		private static extern void tdatOnCustEvent10();
 	```
 	```
 		public static void OnCustEvent1()
@@ -97,34 +97,34 @@ Ad Tracking Unity 平台 SDK 由`封装层`和 `Native SDK` 两部分构成，�
 	删除 `Assets/Plugins/iOS/TalkingDataAdTracking.mm` 文件中如下代码：
 	
 	```
-		void tdOnCustEvent1() {
+		void tdatOnCustEvent1() {
 			[TalkingDataAppCpa onCustEvent1];
 		}
-		void tdOnCustEvent2() {
+		void tdatOnCustEvent2() {
 			[TalkingDataAppCpa onCustEvent2];
 		}
-		void tdOnCustEvent3() {
+		void tdatOnCustEvent3() {
 			[TalkingDataAppCpa onCustEvent3];
 		}
-		void tdOnCustEvent4() {
+		void tdatOnCustEvent4() {
 			[TalkingDataAppCpa onCustEvent4];
 		}
-		void tdOnCustEvent5() {
+		void tdatOnCustEvent5() {
 			[TalkingDataAppCpa onCustEvent5];
 		}
-		void tdOnCustEvent6() {
+		void tdatOnCustEvent6() {
 			[TalkingDataAppCpa onCustEvent6];
 		}
-		void tdOnCustEvent7() {
+		void tdatOnCustEvent7() {
 			[TalkingDataAppCpa onCustEvent7];
 		}
-		void tdOnCustEvent8() {
+		void tdatOnCustEvent8() {
 			[TalkingDataAppCpa onCustEvent8];
 		}
-		void tdOnCustEvent9() {
+		void tdatOnCustEvent9() {
 			[TalkingDataAppCpa onCustEvent9];
 		}
-		void tdOnCustEvent10() {
+		void tdatOnCustEvent10() {
 			[TalkingDataAppCpa onCustEvent10];
 		}
 	```
