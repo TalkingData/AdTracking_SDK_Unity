@@ -153,6 +153,7 @@ public class TalkingDataAdTracking
 			AndroidJavaObject currActivity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity");
 			Debug.Log("Android start");
 			adTrackingClass.CallStatic("init", currActivity, appId, channelId);
+			adTrackingClass.CallStatic("onResume", currActivity);
 #endif
 #if UNITY_IPHONE
 			Debug.Log("iOS start");
