@@ -30,14 +30,6 @@ public class TDAdTrackingDemoScript : MonoBehaviour
 			adSearch.SetItemLocationId("Edu");
 			adSearch.SetStartDate("2019-01-01");
 			adSearch.SetEndDate("2019-12-12");
-			adSearch.SetSearchTerm("search item");
-			adSearch.SetGoogleBusinessVertical("google Business Vertical");
-			Dictionary<string, object> dic = new Dictionary<string, object>();
-			dic.Add("StringValue", "custom param");
-			dic.Add("IntValue", 1024);
-			dic.Add("DoubleValue", 3.14);
-			dic.Add("BoolValue", true);
-			adSearch.SetCustomParam(dic);
 			TalkingDataAdTracking.OnAdSearch(adSearch);
 		}
 

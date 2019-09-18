@@ -31,7 +31,7 @@ public class TDAdSearch
 		{
 			TDAdSearch adSearch = new TDAdSearch();
 #if UNITY_ANDROID
-			AndroidJavaClass javaClass = new AndroidJavaClass("com.tendcloud.appcpa.AdSearch");
+			AndroidJavaClass javaClass = new AndroidJavaClass("com.tendcloud.appcpa.TDSearch");
 			adSearch.javaObj = javaClass.CallStatic<AndroidJavaObject>("createAdSearch");
 #endif
 			return adSearch;
@@ -162,112 +162,6 @@ public class TDAdSearch
 		return this;
 	}
 	
-	// 搜索字符串，至多128字符
-	public TDAdSearch SetSearchTerm(string searchTerm)
-	{
-		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
-		{
-#if UNITY_ANDROID
-			if (this.javaObj != null)
-			{
-				this.javaObj.Call<AndroidJavaObject>("setSearchTerm", searchTerm);
-			}
-#endif
-#if UNITY_IPHONE
-			this.searchTerm = searchTerm;
-#endif
-		}
-		
-		return this;
-	}
-	
-	// 用于区分各种业务类型的字符串，至多128字符
-	public TDAdSearch SetGoogleBusinessVertical(string googleBusinessVertical)
-	{
-		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
-		{
-#if UNITY_ANDROID
-			if (this.javaObj != null)
-			{
-				this.javaObj.Call<AndroidJavaObject>("setGoogleBusinessVertical", googleBusinessVertical);
-			}
-#endif
-#if UNITY_IPHONE
-			this.googleBusinessVertical = googleBusinessVertical;
-#endif
-		}
-		
-		return this;
-	}
-	
-	// 可自定义扩展参数
-	public TDAdSearch SetCustomParam(Dictionary<string, object> parameters)
-	{
-		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
-		{
-#if UNITY_ANDROID
-			if (this.javaObj != null && parameters != null && parameters.Count > 0)
-			{
-				int count = parameters.Count;
-				AndroidJavaObject map = new AndroidJavaObject("java.util.HashMap", count);
-				IntPtr method_Put = AndroidJNIHelper.GetMethodID(map.GetRawClass(), 
-						"put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
-				object[] args = new object[2];
-				foreach (KeyValuePair<string, object> kvp in parameters)
-				{
-					args[0] = new AndroidJavaObject("java.lang.String", kvp.Key);
-					if (typeof(System.String).IsInstanceOfType(kvp.Value))
-					{
-						args[1] = new AndroidJavaObject("java.lang.String", kvp.Value);
-					}
-					else if (typeof(System.Boolean).IsInstanceOfType(kvp.Value))
-					{
-						args[1] = new AndroidJavaObject("java.lang.Boolean", kvp.Value);
-					}
-					else
-					{
-						args[1] = new AndroidJavaObject("java.lang.Double", ""+kvp.Value);
-					}
-					AndroidJNI.CallObjectMethod(map.GetRawObject(), method_Put, AndroidJNIHelper.CreateJNIArgArray(args));
-				}
-				this.javaObj.Call<AndroidJavaObject>("setCustomParam", map);
-			}
-#endif
-#if UNITY_IPHONE
-			if (parameters != null && parameters.Count > 0)
-			{
-				string paramJson = "{";
-				foreach (KeyValuePair<string, object> kvp in parameters)
-				{
-					if (paramJson.Length > 1)
-					{
-						paramJson += ",";
-					}
-					if (typeof(System.String).IsInstanceOfType(kvp.Value))
-					{
-						paramJson += "\"" + kvp.Key + "\":\"" + kvp.Value + "\"";
-					}
-					else if (typeof(System.Boolean).IsInstanceOfType(kvp.Value))
-					{
-						paramJson += "\"" + kvp.Key + "\":" + kvp.Value.ToString().ToLower();
-					}
-					else
-					{
-						paramJson += "\"" + kvp.Key + "\":" + kvp.Value;
-					}
-				}
-				paramJson += "}";
-				this.custom = paramJson;
-			}
-#endif
-		}
-		
-		return this;
-	}
-	
 #if UNITY_IPHONE
 	public override string ToString()
 	{
@@ -279,10 +173,7 @@ public class TDAdSearch
 								+ "\",\"itemId\":\"" + this.itemId
 								+ "\",\"itemLocationId\":\"" + this.itemLocationId
 								+ "\",\"startDate\":\"" + this.startDate
-								+ "\",\"endDate\":\"" + this.endDate
-								+ "\",\"searchTerm\":\"" + this.searchTerm
-								+ "\",\"googleBusinessVertical\":\"" + this.googleBusinessVertical
-								+ "\",\"custom\":" + this.custom + "}";
+								+ "\",\"endDate\":\"" + this.endDate + "\"}";
 			return adSearchStr;
 		}
 		

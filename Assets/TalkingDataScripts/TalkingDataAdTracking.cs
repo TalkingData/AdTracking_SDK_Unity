@@ -182,7 +182,7 @@ public class TalkingDataAdTracking
 		if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
 		{
 #if UNITY_ANDROID
-			adTrackingClass.CallStatic("onAdSearch", adSearch.javaObj);
+			adTrackingClass.CallStatic("onSearch", adSearch.javaObj);
 #endif
 #if UNITY_IPHONE
 			tdatOnAdSearch(adSearch.ToString());
