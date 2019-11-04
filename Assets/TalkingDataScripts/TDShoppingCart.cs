@@ -1,6 +1,7 @@
 using UnityEngine;
 
 
+#if TDAT_RETAIL
 public class TDShoppingCart
 {
 	
@@ -12,7 +13,7 @@ public class TDShoppingCart
 	private string items = "";
 #endif
 	
-	private static TDShoppingCart shoppingCart = null;
+	private static TDShoppingCart shoppingCart;
 	
 	/* Public interface for use inside C# code */
 	
@@ -31,8 +32,6 @@ public class TDShoppingCart
 		
 		return null;
 	}
-	
-	public TDShoppingCart() {}
 	
 	public TDShoppingCart AddItem(string itemId, string category, string name, int unitPrice, int amount)
 	{
@@ -72,3 +71,4 @@ public class TDShoppingCart
 	}
 #endif
 }
+#endif

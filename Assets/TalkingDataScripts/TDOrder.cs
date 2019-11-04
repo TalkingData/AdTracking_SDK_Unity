@@ -1,6 +1,7 @@
 using UnityEngine;
 
 
+#if TDAT_RETAIL
 public class TDOrder
 {
 	
@@ -9,9 +10,9 @@ public class TDOrder
 #endif
 	
 #if UNITY_IPHONE
-	private string orderId = null;
-	private int total = 0;
-	private string currencyType = null;
+	private string orderId;
+	private int total;
+	private string currencyType;
 	private string items = "";
 #endif
 	
@@ -37,8 +38,6 @@ public class TDOrder
 		
 		return null;
 	}
-	
-	public TDOrder() {}
 	
 	public TDOrder AddItem(string itemId, string category, string name, int unitPrice, int amount)
 	{
@@ -78,3 +77,4 @@ public class TDOrder
 	}
 #endif
 }
+#endif
