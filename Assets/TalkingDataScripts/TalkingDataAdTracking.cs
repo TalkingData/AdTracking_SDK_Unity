@@ -246,6 +246,18 @@ public class TalkingDataAdTracking
 #endif
 		}
 	}
+
+	private static string oaid = null;
+	public static string GetOAID() {
+		//if the platform is real device
+		if (oaid == null && Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor) {
+#if UNITY_ANDROID
+			AndroidJavaObject activity = unityClass.GetStatic<AndroidJavaObject>("currentActivity");
+			oaid = adTrackingClass.CallStatic<string>("getOAID", activity);
+#endif
+		}
+		return oaid;
+	}
 	
 	public static void OnRegister(string account, string invitationCode = null)
 	{
