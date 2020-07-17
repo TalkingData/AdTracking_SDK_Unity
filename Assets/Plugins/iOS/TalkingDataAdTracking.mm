@@ -1,11 +1,3 @@
-//
-//  TalkingDataAdTracking.mm
-//  TalkingData
-//
-//  Created by Li Weiqiang on 19-4-22.
-//  Copyright (c) 2019年 TendCloud. All rights reserved.
-//
-
 #import "TalkingDataAppCpa.h"
 
 //#define TDAT_RETAIL     // 电商零售
@@ -18,67 +10,81 @@
 //#define TDAT_CUSTOM     // 自定义事件
 
 // Converts C style string to NSString
-static NSString *tdatCreateNSString(const char *string) {
+static NSString *TDATCreateNSString(const char *string) {
     return string ? [NSString stringWithUTF8String:string] : nil;
 }
+
+static char *tdatDeviceId = NULL;
 
 extern "C" {
 #pragma GCC diagnostic ignored "-Wmissing-prototypes"
 
-void tdatSetVerboseLogDisable() {
+const char *TDATGetDeviceId() {
+    if (!tdatDeviceId) {
+        NSString *deviceId = [TalkingDataAppCpa getDeviceId];
+        tdatDeviceId = (char *)calloc(deviceId.length + 1, sizeof(char));
+        strcpy(tdatDeviceId, deviceId.UTF8String);
+    }
+    return tdatDeviceId;
+}
+
+void TDATSetVerboseLogDisable() {
     [TalkingDataAppCpa setVerboseLogDisable];
 }
 
-void tdatBackgroundSessionEnabled() {
+void TDATBackgroundSessionEnabled() {
     [TalkingDataAppCpa backgroundSessionEnabled];
 }
 
-void tdatEnableSFSafariViewControllerTracking() {
+void TDATEnableSFSafariViewControllerTracking() {
     [TalkingDataAppCpa enableSFSafariViewControllerTracking];
 }
 
-void tdatInit(const char *appId, const char *channelId, const char *custom) {
-    [TalkingDataAppCpa init:tdatCreateNSString(appId)
-              withChannelId:tdatCreateNSString(channelId)
-                     custom:tdatCreateNSString(custom)];
+void TDATInit(const char *appId, const char *channelId, const char *custom) {
+    if ([TalkingDataAppCpa respondsToSelector:@selector(setFrameworkTag:)]) {
+        [TalkingDataAppCpa performSelector:@selector(setFrameworkTag:) withObject:@2];
+    }
+    [TalkingDataAppCpa init:TDATCreateNSString(appId)
+              withChannelId:TDATCreateNSString(channelId)
+                     custom:TDATCreateNSString(custom)];
 }
 
-void tdatOnRegister(const char *account, const char *invitationCode) {
-    [TalkingDataAppCpa onRegister:tdatCreateNSString(account)
-                   invitationCode:tdatCreateNSString(invitationCode)];
+void TDATOnRegister(const char *account, const char *invitationCode) {
+    [TalkingDataAppCpa onRegister:TDATCreateNSString(account)
+                   invitationCode:TDATCreateNSString(invitationCode)];
 }
 
-void tdatOnLogin(const char *account) {
-    [TalkingDataAppCpa onLogin:tdatCreateNSString(account)];
+void TDATOnLogin(const char *account) {
+    [TalkingDataAppCpa onLogin:TDATCreateNSString(account)];
 }
 
-void tdatOnCreateCard(const char *account, const char *method, const char *content) {
-    [TalkingDataAppCpa onCreateCard:tdatCreateNSString(account)
-                             method:tdatCreateNSString(method)
-                            content:tdatCreateNSString(content)];
+void TDATOnCreateCard(const char *account, const char *method, const char *content) {
+    [TalkingDataAppCpa onCreateCard:TDATCreateNSString(account)
+                             method:TDATCreateNSString(method)
+                            content:TDATCreateNSString(content)];
 }
 
-void tdatOnReceiveDeepLink(const char *url) {
-    [TalkingDataAppCpa onReceiveDeepLink:[NSURL URLWithString:tdatCreateNSString(url)]];
+void TDATOnReceiveDeepLink(const char *url) {
+    [TalkingDataAppCpa onReceiveDeepLink:[NSURL URLWithString:TDATCreateNSString(url)]];
 }
 
-void tdatOnFavorite(const char *category, const char *content) {
-    [TalkingDataAppCpa onFavorite:tdatCreateNSString(category)
-                          content:tdatCreateNSString(content)];
+void TDATOnFavorite(const char *category, const char *content) {
+    [TalkingDataAppCpa onFavorite:TDATCreateNSString(category)
+                          content:TDATCreateNSString(content)];
 }
 
-void tdatOnShare(const char *account, const char *content) {
-    [TalkingDataAppCpa onShare:tdatCreateNSString(account)
-                       content:tdatCreateNSString(content)];
+void TDATOnShare(const char *account, const char *content) {
+    [TalkingDataAppCpa onShare:TDATCreateNSString(account)
+                       content:TDATCreateNSString(content)];
 }
 
-void tdatOnPunch(const char *account, const char *punchId) {
-    [TalkingDataAppCpa onPunch:tdatCreateNSString(account)
-                       punchId:tdatCreateNSString(punchId)];
+void TDATOnPunch(const char *account, const char *punchId) {
+    [TalkingDataAppCpa onPunch:TDATCreateNSString(account)
+                       punchId:TDATCreateNSString(punchId)];
 }
 
-void tdatOnSearch(const char *searchJson) {
-    NSString *searchStr = tdatCreateNSString(searchJson);
+void TDATOnSearch(const char *searchJson) {
+    NSString *searchStr = TDATCreateNSString(searchJson);
     NSData *searchData = [searchStr dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *searchDic = [NSJSONSerialization JSONObjectWithData:searchData options:0 error:nil];
     TDSearch *search = [[TDSearch alloc] init];
@@ -98,69 +104,69 @@ void tdatOnSearch(const char *searchJson) {
 }
 
 #if (defined(TDAT_RETAIL) || defined(TDAT_FINANCE) || defined(TDAT_TOUR) || defined(TDAT_ONLINEEDU))
-void tdatOnContact(const char *account, const char *content) {
-    [TalkingDataAppCpa onContact:tdatCreateNSString(account)
-                         content:tdatCreateNSString(content)];
+void TDATOnContact(const char *account, const char *content) {
+    [TalkingDataAppCpa onContact:TDATCreateNSString(account)
+                         content:TDATCreateNSString(content)];
 }
 #endif
 
 #if (defined(TDAT_GAME) || defined(TDAT_TOUR) || defined(TDAT_ONLINEEDU) || defined(TDAT_READING) || defined(TDAT_OTHER))
-void tdatOnPay(const char *account, const char *orderId, int amount, const char *currencyType, const char *payType) {
-    [TalkingDataAppCpa onPay:tdatCreateNSString(account)
-                 withOrderId:tdatCreateNSString(orderId)
+void TDATOnPay(const char *account, const char *orderId, int amount, const char *currencyType, const char *payType) {
+    [TalkingDataAppCpa onPay:TDATCreateNSString(account)
+                 withOrderId:TDATCreateNSString(orderId)
                   withAmount:amount
-            withCurrencyType:tdatCreateNSString(currencyType)
-                 withPayType:tdatCreateNSString(payType)];
+            withCurrencyType:TDATCreateNSString(currencyType)
+                 withPayType:TDATCreateNSString(payType)];
 }
 #endif
 
 #if (defined(TDAT_RETAIL) || defined(TDAT_FINANCE) || defined(TDAT_TOUR) || defined(TDAT_ONLINEEDU))
-void tdatOnChargeBack(const char *account, const char *orderId, const char *reason, const char *type) {
-    [TalkingDataAppCpa onChargeBack:tdatCreateNSString(account)
-                            orderId:tdatCreateNSString(orderId)
-                             reason:tdatCreateNSString(reason)
-                               type:tdatCreateNSString(type)];
+void TDATOnChargeBack(const char *account, const char *orderId, const char *reason, const char *type) {
+    [TalkingDataAppCpa onChargeBack:TDATCreateNSString(account)
+                            orderId:TDATCreateNSString(orderId)
+                             reason:TDATCreateNSString(reason)
+                               type:TDATCreateNSString(type)];
 }
 #endif
 
 #if (defined(TDAT_FINANCE) || defined(TDAT_ONLINEEDU))
-void tdatOnReservation(const char *account, const char *reservationId, const char *category, int amount, const char *term) {
-    [TalkingDataAppCpa onReservation:tdatCreateNSString(account)
-                       reservationId:tdatCreateNSString(reservationId)
-                            category:tdatCreateNSString(category)
+void TDATOnReservation(const char *account, const char *reservationId, const char *category, int amount, const char *term) {
+    [TalkingDataAppCpa onReservation:TDATCreateNSString(account)
+                       reservationId:TDATCreateNSString(reservationId)
+                            category:TDATCreateNSString(category)
                               amount:amount
-                                term:tdatCreateNSString(term)];
+                                term:TDATCreateNSString(term)];
 }
 #endif
 
 #if (defined(TDAT_RETAIL) || defined(TDAT_TOUR))
-void tdatOnBooking(const char *account, const char *bookingId, const char *category, int amount, const char *content) {
-    [TalkingDataAppCpa onBooking:tdatCreateNSString(account)
-                       bookingId:tdatCreateNSString(bookingId)
-                        category:tdatCreateNSString(category)
+void TDATOnBooking(const char *account, const char *bookingId, const char *category, int amount, const char *content) {
+    [TalkingDataAppCpa onBooking:TDATCreateNSString(account)
+                       bookingId:TDATCreateNSString(bookingId)
+                        category:TDATCreateNSString(category)
                           amount:amount
-                         content:tdatCreateNSString(content)];
+                         content:TDATCreateNSString(content)];
 }
 #endif
 
 #ifdef TDAT_RETAIL
-void tdatOnViewItem(const char *itemId, const char *category, const char *name, int unitPrice) {
-    [TalkingDataAppCpa onViewItemWithCategory:tdatCreateNSString(category)
-                                       itemId:tdatCreateNSString(itemId)
-                                         name:tdatCreateNSString(name)
+void TDATOnViewItem(const char *itemId, const char *category, const char *name, int unitPrice) {
+    [TalkingDataAppCpa onViewItemWithCategory:TDATCreateNSString(category)
+                                       itemId:TDATCreateNSString(itemId)
+                                         name:TDATCreateNSString(name)
                                     unitPrice:unitPrice];
 }
 
-void tdatOnAddItemToShoppingCart(const char *itemId, const char *category, const char *name, int unitPrice, int amount) {
-    [TalkingDataAppCpa onAddItemToShoppingCartWithCategory:tdatCreateNSString(category)
-                                                    itemId:tdatCreateNSString(itemId)
-                                                      name:tdatCreateNSString(name)
+void TDATOnAddItemToShoppingCart(const char *itemId, const char *category, const char *name, int unitPrice, int amount) {
+    [TalkingDataAppCpa onAddItemToShoppingCartWithCategory:TDATCreateNSString(category)
+                                                    itemId:TDATCreateNSString(itemId)
+                                                      name:TDATCreateNSString(name)
                                                  unitPrice:unitPrice
                                                     amount:amount];
 }
 
-void tdatOnViewShoppingCart(const char *shoppingCartJson) {
-    NSString *shoppingCartStr = tdatCreateNSString(shoppingCartJson);
+void TDATOnViewShoppingCart(const char *shoppingCartJson) {
+    NSString *shoppingCartStr = TDATCreateNSString(shoppingCartJson);
     NSData *shoppingCartData = [shoppingCartStr dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *shoppingCartDic = [NSJSONSerialization JSONObjectWithData:shoppingCartData options:0 error:nil];
     TDShoppingCart *shoppingCart = [TDShoppingCart createShoppingCart];
@@ -175,8 +181,8 @@ void tdatOnViewShoppingCart(const char *shoppingCartJson) {
     [TalkingDataAppCpa onViewShoppingCart:shoppingCart];
 }
 
-void tdatOnPlaceOrder(const char *account, const char *orderJson) {
-    NSString *orderStr = tdatCreateNSString(orderJson);
+void TDATOnPlaceOrder(const char *account, const char *orderJson) {
+    NSString *orderStr = TDATCreateNSString(orderJson);
     NSData *orderData = [orderStr dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *orderDic = [NSJSONSerialization JSONObjectWithData:orderData options:0 error:nil];
     TDOrder *order = [TDOrder orderWithOrderId:orderDic[@"orderId"]
@@ -190,28 +196,28 @@ void tdatOnPlaceOrder(const char *account, const char *orderJson) {
                          unitPrice:[item[@"unitPrice"] intValue]
                             amount:[item[@"amount"] intValue]];
     }
-    [TalkingDataAppCpa onPlaceOrder:tdatCreateNSString(account)
+    [TalkingDataAppCpa onPlaceOrder:TDATCreateNSString(account)
                           withOrder:order];
 }
 
-void tdatOnOrderPaySucc(const char *account, const char *orderId, int amount, const char *currencyType, const char *payType) {
-    [TalkingDataAppCpa onOrderPaySucc:tdatCreateNSString(account)
-                          withOrderId:tdatCreateNSString(orderId)
+void TDATOnOrderPaySucc(const char *account, const char *orderId, int amount, const char *currencyType, const char *payType) {
+    [TalkingDataAppCpa onOrderPaySucc:TDATCreateNSString(account)
+                          withOrderId:TDATCreateNSString(orderId)
                            withAmount:amount
-                     withCurrencyType:tdatCreateNSString(currencyType)
-                          withPayType:tdatCreateNSString(payType)];
+                     withCurrencyType:TDATCreateNSString(currencyType)
+                          withPayType:TDATCreateNSString(payType)];
 }
 #endif
 
 #ifdef TDAT_FINANCE
-void tdatOnCredit(const char *account, int amount, const char *content) {
-    [TalkingDataAppCpa onCredit:tdatCreateNSString(account)
+void TDATOnCredit(const char *account, int amount, const char *content) {
+    [TalkingDataAppCpa onCredit:TDATCreateNSString(account)
                          amount:amount
-                        content:tdatCreateNSString(content)];
+                        content:TDATCreateNSString(content)];
 }
 
-void tdatOnTransaction(const char *account, const char *transactionJson) {
-    NSString *transactionStr = tdatCreateNSString(transactionJson);
+void TDATOnTransaction(const char *account, const char *transactionJson) {
+    NSString *transactionStr = TDATCreateNSString(transactionJson);
     NSData *transactionData = [transactionStr dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *transactionDic = [NSJSONSerialization JSONObjectWithData:transactionData options:0 error:nil];
     TDTransaction *transaction = [[TDTransaction alloc] init];
@@ -224,116 +230,116 @@ void tdatOnTransaction(const char *account, const char *transactionJson) {
     transaction.endDate = [[transactionDic objectForKey:@"endDate"] longValue];
     transaction.currencyType = [transactionDic objectForKey:@"currencyType"];
     transaction.content = [transactionDic objectForKey:@"content"];
-    [TalkingDataAppCpa onTransaction:tdatCreateNSString(account)
+    [TalkingDataAppCpa onTransaction:TDATCreateNSString(account)
                          transaction:transaction];
 }
 #endif
 
 #ifdef TDAT_GAME
-void tdatOnCreateRole(const char *name) {
-    [TalkingDataAppCpa onCreateRole:tdatCreateNSString(name)];
+void TDATOnCreateRole(const char *name) {
+    [TalkingDataAppCpa onCreateRole:TDATCreateNSString(name)];
 }
 
-void tdatOnLevelPass(const char *account, const char *levelId) {
-    [TalkingDataAppCpa onLevelPass:tdatCreateNSString(account)
-                           levelId:tdatCreateNSString(levelId)];
+void TDATOnLevelPass(const char *account, const char *levelId) {
+    [TalkingDataAppCpa onLevelPass:TDATCreateNSString(account)
+                           levelId:TDATCreateNSString(levelId)];
 }
 
-void tdatOnGuideFinished(const char *account, const char *content) {
-    [TalkingDataAppCpa onGuideFinished:tdatCreateNSString(account)
-                               content:tdatCreateNSString(content)];
+void TDATOnGuideFinished(const char *account, const char *content) {
+    [TalkingDataAppCpa onGuideFinished:TDATCreateNSString(account)
+                               content:TDATCreateNSString(content)];
 }
 #endif
 
 #ifdef TDAT_ONLINEEDU
-void tdatOnLearn(const char *account, const char *course, long long begin, int duration) {
-    [TalkingDataAppCpa onLearn:tdatCreateNSString(account)
-                        course:tdatCreateNSString(course)
+void TDATOnLearn(const char *account, const char *course, long long begin, int duration) {
+    [TalkingDataAppCpa onLearn:TDATCreateNSString(account)
+                        course:TDATCreateNSString(course)
                          begin:begin
                       duration:duration];
 }
 
-void tdatOnPreviewFinished(const char *account, const char *content) {
-    [TalkingDataAppCpa onPreviewFinished:tdatCreateNSString(account)
-                                 content:tdatCreateNSString(content)];
+void TDATOnPreviewFinished(const char *account, const char *content) {
+    [TalkingDataAppCpa onPreviewFinished:TDATCreateNSString(account)
+                                 content:TDATCreateNSString(content)];
 }
 #endif
 
 #ifdef TDAT_READING
-void tdatOnRead(const char *account, const char *book, long long begin, int duration) {
-    [TalkingDataAppCpa onRead:tdatCreateNSString(account)
-                         book:tdatCreateNSString(book)
+void TDATOnRead(const char *account, const char *book, long long begin, int duration) {
+    [TalkingDataAppCpa onRead:TDATCreateNSString(account)
+                         book:TDATCreateNSString(book)
                         begin:begin
                      duration:duration];
 }
 
-void tdatOnFreeFinished(const char *account, const char *content) {
-    [TalkingDataAppCpa onFreeFinished:tdatCreateNSString(account)
-                              content:tdatCreateNSString(content)];
+void TDATOnFreeFinished(const char *account, const char *content) {
+    [TalkingDataAppCpa onFreeFinished:TDATCreateNSString(account)
+                              content:TDATCreateNSString(content)];
 }
 #endif
 
 #if (defined(TDAT_GAME) || defined(TDAT_ONLINEEDU))
-void tdatOnAchievementUnlock(const char *account, const char *achievementId) {
-    [TalkingDataAppCpa onAchievementUnlock:tdatCreateNSString(account)
-                             achievementId:tdatCreateNSString(achievementId)];
+void TDATOnAchievementUnlock(const char *account, const char *achievementId) {
+    [TalkingDataAppCpa onAchievementUnlock:TDATCreateNSString(account)
+                             achievementId:TDATCreateNSString(achievementId)];
 }
 #endif
 
 #if (defined(TDAT_FINANCE) || defined(TDAT_TOUR) || defined(TDAT_OTHER))
-void tdatOnBrowse(const char *account, const char *content, long long begin, int duration) {
-    [TalkingDataAppCpa onBrowse:tdatCreateNSString(account)
-                        content:tdatCreateNSString(content)
+void TDATOnBrowse(const char *account, const char *content, long long begin, int duration) {
+    [TalkingDataAppCpa onBrowse:TDATCreateNSString(account)
+                        content:TDATCreateNSString(content)
                           begin:begin
                        duration:duration];
 }
 #endif
 
 #if (defined(TDAT_RETAIL) || defined(TDAT_FINANCE) || defined(TDAT_TOUR) || defined(TDAT_OTHER))
-void tdatOnTrialFinished(const char *account, const char *content) {
-    [TalkingDataAppCpa onTrialFinished:tdatCreateNSString(account)
-                               content:tdatCreateNSString(content)];
+void TDATOnTrialFinished(const char *account, const char *content) {
+    [TalkingDataAppCpa onTrialFinished:TDATCreateNSString(account)
+                               content:TDATCreateNSString(content)];
 }
 #endif
 
 #ifdef TDAT_CUSTOM
-void tdatOnCustEvent1() {
+void TDATOnCustEvent1() {
     [TalkingDataAppCpa onCustEvent1];
 }
 
-void tdatOnCustEvent2() {
+void TDATOnCustEvent2() {
     [TalkingDataAppCpa onCustEvent2];
 }
 
-void tdatOnCustEvent3() {
+void TDATOnCustEvent3() {
     [TalkingDataAppCpa onCustEvent3];
 }
 
-void tdatOnCustEvent4() {
+void TDATOnCustEvent4() {
     [TalkingDataAppCpa onCustEvent4];
 }
 
-void tdatOnCustEvent5() {
+void TDATOnCustEvent5() {
     [TalkingDataAppCpa onCustEvent5];
 }
 
-void tdatOnCustEvent6() {
+void TDATOnCustEvent6() {
     [TalkingDataAppCpa onCustEvent6];
 }
 
-void tdatOnCustEvent7() {
+void TDATOnCustEvent7() {
     [TalkingDataAppCpa onCustEvent7];
 }
 
-void tdatOnCustEvent8() {
+void TDATOnCustEvent8() {
     [TalkingDataAppCpa onCustEvent8];
 }
 
-void tdatOnCustEvent9() {
+void TDATOnCustEvent9() {
     [TalkingDataAppCpa onCustEvent9];
 }
 
-void tdatOnCustEvent10() {
+void TDATOnCustEvent10() {
     [TalkingDataAppCpa onCustEvent10];
 }
 #endif
