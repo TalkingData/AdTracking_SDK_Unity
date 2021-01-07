@@ -29,13 +29,13 @@ public static class TalkingDataAdTracking
     private static extern void TDATInit(string appId, string channelId, string custom);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnRegister(string accountId, string invitationCode);
+    private static extern void TDATOnRegister(string profileId, string invitationCode);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnLogin(string accountId);
+    private static extern void TDATOnLogin(string profileId);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnCreateCard(string account, string method, string content);
+    private static extern void TDATOnCreateCard(string profile, string method, string content);
 
     [DllImport("__Internal")]
     private static extern void TDATOnReceiveDeepLink(string url);
@@ -44,37 +44,37 @@ public static class TalkingDataAdTracking
     private static extern void TDATOnFavorite(string category, string content);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnShare(string account, string content);
+    private static extern void TDATOnShare(string profile, string content);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnPunch(string account, string punchId);
+    private static extern void TDATOnPunch(string profile, string punchId);
 
     [DllImport("__Internal")]
     private static extern void TDATOnSearch(string searchJson);
 
 #if TDAT_RETAIL || TDAT_FINANCE || TDAT_TOUR || TDAT_ONLINEEDU
     [DllImport("__Internal")]
-    private static extern void TDATOnContact(string account, string content);
+    private static extern void TDATOnContact(string profile, string content);
 #endif
 
 #if TDAT_GAME || TDAT_TOUR || TDAT_ONLINEEDU || TDAT_READING || TDAT_OTHER
     [DllImport("__Internal")]
-    private static extern void TDATOnPay(string account, string orderId, int amount, string currencyType, string payType);
+    private static extern void TDATOnPay(string profile, string orderId, int amount, string currencyType, string payType);
 #endif
 
 #if TDAT_RETAIL || TDAT_FINANCE || TDAT_TOUR || TDAT_ONLINEEDU
     [DllImport("__Internal")]
-    private static extern void TDATOnChargeBack(string account, string orderId, string reason, string type);
+    private static extern void TDATOnChargeBack(string profile, string orderId, string reason, string type);
 #endif
 
 #if TDAT_FINANCE || TDAT_ONLINEEDU
     [DllImport("__Internal")]
-    private static extern void TDATOnReservation(string account, string reservationId, string category, int amount, string term);
+    private static extern void TDATOnReservation(string profile, string reservationId, string category, int amount, string term);
 #endif
 
 #if TDAT_RETAIL || TDAT_TOUR
     [DllImport("__Internal")]
-    private static extern void TDATOnBooking(string account, string bookingId, string category, int amount, string content);
+    private static extern void TDATOnBooking(string profile, string bookingId, string category, int amount, string content);
 #endif
 
 #if TDAT_RETAIL
@@ -88,18 +88,18 @@ public static class TalkingDataAdTracking
     private static extern void TDATOnViewShoppingCart(string shoppingCartJson);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnPlaceOrder(string account, string orderJson);
+    private static extern void TDATOnPlaceOrder(string profile, string orderJson);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnOrderPaySucc(string account, string orderId, int amount, string currencyType, string payType);
+    private static extern void TDATOnOrderPaySucc(string profile, string orderId, int amount, string currencyType, string payType);
 #endif
 
 #if TDAT_FINANCE
     [DllImport("__Internal")]
-    private static extern void TDATOnCredit(string account, int amount, string content);
+    private static extern void TDATOnCredit(string profile, int amount, string content);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnTransaction(string account, string transactionJson);
+    private static extern void TDATOnTransaction(string profile, string transactionJson);
 #endif
 
 #if TDAT_GAME
@@ -107,41 +107,41 @@ public static class TalkingDataAdTracking
     private static extern void TDATOnCreateRole(string name);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnLevelPass(string account, string levelId);
+    private static extern void TDATOnLevelPass(string profile, string levelId);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnGuideFinished(string account, string content);
+    private static extern void TDATOnGuideFinished(string profile, string content);
 #endif
 
 #if TDAT_ONLINEEDU
     [DllImport("__Internal")]
-    private static extern void TDATOnLearn(string account, string course, long begin, int duration);
+    private static extern void TDATOnLearn(string profile, string course, long begin, int duration);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnPreviewFinished(string account, string content);
+    private static extern void TDATOnPreviewFinished(string profile, string content);
 #endif
 
 #if TDAT_READING
     [DllImport("__Internal")]
-    private static extern void TDATOnRead(string account, string book, long begin, int duration);
+    private static extern void TDATOnRead(string profile, string book, long begin, int duration);
 
     [DllImport("__Internal")]
-    private static extern void TDATOnFreeFinished(string account, string content);
+    private static extern void TDATOnFreeFinished(string profile, string content);
 #endif
 
 #if TDAT_GAME || TDAT_ONLINEEDU
     [DllImport("__Internal")]
-    private static extern void TDATOnAchievementUnlock(string account, string achievementId);
+    private static extern void TDATOnAchievementUnlock(string profile, string achievementId);
 #endif
 
 #if TDAT_FINANCE || TDAT_TOUR || TDAT_OTHER
     [DllImport("__Internal")]
-    private static extern void TDATOnBrowse(string account, string content, long begin, int duration);
+    private static extern void TDATOnBrowse(string profile, string content, long begin, int duration);
 #endif
 
 #if TDAT_RETAIL || TDAT_FINANCE || TDAT_TOUR || TDAT_OTHER
     [DllImport("__Internal")]
-    private static extern void TDATOnTrialFinished(string account, string content);
+    private static extern void TDATOnTrialFinished(string profile, string content);
 #endif
 
 #if TDAT_CUSTOM
@@ -285,50 +285,50 @@ public static class TalkingDataAdTracking
         }
     }
 
-    public static void OnRegister(string account, string invitationCode = null)
+    public static void OnRegister(string profile, string invitationCode = null)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onRegister", account, invitationCode);
+                adTrackingClass.CallStatic("onRegister", profile, invitationCode);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnRegister(account, invitationCode);
+            TDATOnRegister(profile, invitationCode);
 #endif
         }
     }
 
-    public static void OnLogin(string account)
+    public static void OnLogin(string profile)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onLogin", account);
+                adTrackingClass.CallStatic("onLogin", profile);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnLogin(account);
+            TDATOnLogin(profile);
 #endif
         }
     }
 
-    public static void OnCreateCard(string account, string method, string content)
+    public static void OnCreateCard(string profile, string method, string content)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onCreateCard", account, method, content);
+                adTrackingClass.CallStatic("onCreateCard", profile, method, content);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnCreateCard(account, method, content);
+            TDATOnCreateCard(profile, method, content);
 #endif
         }
     }
@@ -365,34 +365,34 @@ public static class TalkingDataAdTracking
         }
     }
 
-    public static void OnShare(string account, string content)
+    public static void OnShare(string profile, string content)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onShare", account, content);
+                adTrackingClass.CallStatic("onShare", profile, content);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnShare(account, content);
+            TDATOnShare(profile, content);
 #endif
         }
     }
 
-    public static void OnPunch(string account, string punchId)
+    public static void OnPunch(string profile, string punchId)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onPunch", account, punchId);
+                adTrackingClass.CallStatic("onPunch", profile, punchId);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnPunch(account, punchId);
+            TDATOnPunch(profile, punchId);
 #endif
         }
     }
@@ -414,90 +414,90 @@ public static class TalkingDataAdTracking
     }
 
 #if TDAT_RETAIL || TDAT_FINANCE || TDAT_TOUR || TDAT_ONLINEEDU
-    public static void OnContact(string account, string content)
+    public static void OnContact(string profile, string content)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onContact", account, content);
+                adTrackingClass.CallStatic("onContact", profile, content);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnContact(account, content);
+            TDATOnContact(profile, content);
 #endif
         }
     }
 #endif
 
 #if TDAT_GAME || TDAT_TOUR || TDAT_ONLINEEDU || TDAT_READING || TDAT_OTHER
-    public static void OnPay(string account, string orderId, int amount, string currencyType, string payType)
+    public static void OnPay(string profile, string orderId, int amount, string currencyType, string payType)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onPay", account, orderId, amount, currencyType, payType);
+                adTrackingClass.CallStatic("onPay", profile, orderId, amount, currencyType, payType);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnPay(account, orderId, amount, currencyType, payType);
+            TDATOnPay(profile, orderId, amount, currencyType, payType);
 #endif
         }
     }
 #endif
 
 #if TDAT_RETAIL || TDAT_FINANCE || TDAT_TOUR || TDAT_ONLINEEDU
-    public static void OnChargeBack(string account, string orderId, string reason, string type)
+    public static void OnChargeBack(string profile, string orderId, string reason, string type)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onChargeBack", account, orderId, reason, type);
+                adTrackingClass.CallStatic("onChargeBack", profile, orderId, reason, type);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnChargeBack(account, orderId, reason, type);
+            TDATOnChargeBack(profile, orderId, reason, type);
 #endif
         }
     }
 #endif
 
 #if TDAT_FINANCE || TDAT_ONLINEEDU
-    public static void OnReservation(string account, string reservationId, string category, int amount, string term)
+    public static void OnReservation(string profile, string reservationId, string category, int amount, string term)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onReservation", account, reservationId, category, amount, term);
+                adTrackingClass.CallStatic("onReservation", profile, reservationId, category, amount, term);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnReservation(account, reservationId, category, amount, term);
+            TDATOnReservation(profile, reservationId, category, amount, term);
 #endif
         }
     }
 #endif
 
 #if TDAT_RETAIL || TDAT_TOUR
-    public static void OnBooking(string account, string bookingId, string category, int amount, string content)
+    public static void OnBooking(string profile, string bookingId, string category, int amount, string content)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onBooking", account, bookingId, category, amount, content);
+                adTrackingClass.CallStatic("onBooking", profile, bookingId, category, amount, content);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnBooking(account, bookingId, category, amount, content);
+            TDATOnBooking(profile, bookingId, category, amount, content);
 #endif
         }
     }
@@ -552,68 +552,68 @@ public static class TalkingDataAdTracking
         }
     }
 
-    public static void OnPlaceOrder(string account, TDOrder order)
+    public static void OnPlaceOrder(string profile, TDOrder order)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onPlaceOrder", account, order.javaObj);
+                adTrackingClass.CallStatic("onPlaceOrder", profile, order.javaObj);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnPlaceOrder(account, order.ToString());
+            TDATOnPlaceOrder(profile, order.ToString());
 #endif
         }
     }
 
-    public static void OnOrderPaySucc(string account, string orderId, int amount, string currencyType, string payType)
+    public static void OnOrderPaySucc(string profile, string orderId, int amount, string currencyType, string payType)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onOrderPaySucc", account, orderId, amount, currencyType, payType);
+                adTrackingClass.CallStatic("onOrderPaySucc", profile, orderId, amount, currencyType, payType);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnOrderPaySucc(account, orderId, amount, currencyType, payType);
+            TDATOnOrderPaySucc(profile, orderId, amount, currencyType, payType);
 #endif
         }
     }
 #endif
 
 #if TDAT_FINANCE
-    public static void OnCredit(string account, int amount, string content)
+    public static void OnCredit(string profile, int amount, string content)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onCredit", account, amount, content);
+                adTrackingClass.CallStatic("onCredit", profile, amount, content);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnCredit(account, amount, content);
+            TDATOnCredit(profile, amount, content);
 #endif
         }
     }
 
-    public static void OnTransaction(string account, TDTransaction transaction)
+    public static void OnTransaction(string profile, TDTransaction transaction)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onTransaction", account, transaction.javaObj);
+                adTrackingClass.CallStatic("onTransaction", profile, transaction.javaObj);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnTransaction(account, transaction.ToString());
+            TDATOnTransaction(profile, transaction.ToString());
 #endif
         }
     }
@@ -636,156 +636,156 @@ public static class TalkingDataAdTracking
         }
     }
 
-    public static void OnLevelPass(string account, string levelId)
+    public static void OnLevelPass(string profile, string levelId)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onLevelPass", account, levelId);
+                adTrackingClass.CallStatic("onLevelPass", profile, levelId);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnLevelPass(account, levelId);
+            TDATOnLevelPass(profile, levelId);
 #endif
         }
     }
 
-    public static void OnGuideFinished(string account, string content)
+    public static void OnGuideFinished(string profile, string content)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onGuideFinished", account, content);
+                adTrackingClass.CallStatic("onGuideFinished", profile, content);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnGuideFinished(account, content);
+            TDATOnGuideFinished(profile, content);
 #endif
         }
     }
 #endif
 
 #if TDAT_ONLINEEDU
-    public static void OnLearn(string account, string course, long begin, int duration)
+    public static void OnLearn(string profile, string course, long begin, int duration)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onLearn", account, course, begin, duration);
+                adTrackingClass.CallStatic("onLearn", profile, course, begin, duration);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnLearn(account, course, begin, duration);
+            TDATOnLearn(profile, course, begin, duration);
 #endif
         }
     }
 
-    public static void OnPreviewFinished(string account, string content)
+    public static void OnPreviewFinished(string profile, string content)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onPreviewFinished", account, content);
+                adTrackingClass.CallStatic("onPreviewFinished", profile, content);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnPreviewFinished(account, content);
+            TDATOnPreviewFinished(profile, content);
 #endif
         }
     }
 #endif
 
 #if TDAT_READING
-    public static void OnRead(string account, string book, long begin, int duration)
+    public static void OnRead(string profile, string book, long begin, int duration)
      {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onRead", account, book, begin, duration);
+                adTrackingClass.CallStatic("onRead", profile, book, begin, duration);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnRead(account, book, begin, duration);
+            TDATOnRead(profile, book, begin, duration);
 #endif
         }
     }
 
-    public static void OnFreeFinished(string account, string content)
+    public static void OnFreeFinished(string profile, string content)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onFreeFinished", account, content);
+                adTrackingClass.CallStatic("onFreeFinished", profile, content);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnFreeFinished(account, content);
+            TDATOnFreeFinished(profile, content);
 #endif
         }
     }
 #endif
 
 #if TDAT_GAME || TDAT_ONLINEEDU
-    public static void OnAchievementUnlock(string account, string achievementId)
+    public static void OnAchievementUnlock(string profile, string achievementId)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onAchievementUnlock", account, achievementId);
+                adTrackingClass.CallStatic("onAchievementUnlock", profile, achievementId);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnAchievementUnlock(account, achievementId);
+            TDATOnAchievementUnlock(profile, achievementId);
 #endif
         }
     }
 #endif
 
 #if TDAT_FINANCE || TDAT_TOUR || TDAT_OTHER
-    public static void OnBrowse(string account, string content, long begin, int duration)
+    public static void OnBrowse(string profile, string content, long begin, int duration)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onBrowse", account, content, begin, duration);
+                adTrackingClass.CallStatic("onBrowse", profile, content, begin, duration);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnBrowse(account, content, begin, duration);
+            TDATOnBrowse(profile, content, begin, duration);
 #endif
         }
     }
 #endif
 
 #if TDAT_RETAIL || TDAT_FINANCE || TDAT_TOUR || TDAT_OTHER
-    public static void OnTrialFinished(string account, string content)
+    public static void OnTrialFinished(string profile, string content)
     {
         if (Application.platform != RuntimePlatform.OSXEditor && Application.platform != RuntimePlatform.WindowsEditor)
         {
 #if UNITY_ANDROID
             if (adTrackingClass != null)
             {
-                adTrackingClass.CallStatic("onTrialFinished", account, content);
+                adTrackingClass.CallStatic("onTrialFinished", profile, content);
             }
 #endif
 #if UNITY_IPHONE
-            TDATOnTrialFinished(account, content);
+            TDATOnTrialFinished(profile, content);
 #endif
         }
     }
